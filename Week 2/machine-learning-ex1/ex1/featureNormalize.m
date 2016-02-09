@@ -26,12 +26,10 @@ sigma = zeros(1, size(X, 2));
 % Hint: You might find the 'mean' and 'std' functions useful.
 %       
 
-
-
-
-
-
-
+mu = mean(X, 1);
+translated_X = X - mu;
+sigma = std(translated_X);
+X_norm = translated_X./sigma;
 
 
 % ============================================================
