@@ -8,11 +8,11 @@ m = mean(M2)
 
 SM2 = (M2 - m) / scale
 
-SM2(2)  
+r = SM2(4)  
  
 %  -0.37388 
 
-round(SM2(2)*100)/100  
+round(r*100)/100  
 
  
 %%% 2
