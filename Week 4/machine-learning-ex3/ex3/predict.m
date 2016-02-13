@@ -21,15 +21,21 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+% Add ones to the X data matrix
+X = [ones(m, 1) X];
 
+% calc layer 1
+layer1 = sigmoid((X * Theta1'));
 
+% Add ones to the layer1 data matrix
+layer1 = [ones(m, 1) layer1];
 
+% calc prediction
+prediction = sigmoid((layer1 * Theta2'));
 
-
-
-
+% one v all
+[maxvalues p] = max(prediction, [], 2);
 
 % =========================================================================
-
 
 end
