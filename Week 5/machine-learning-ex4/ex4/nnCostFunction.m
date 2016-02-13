@@ -55,11 +55,16 @@ for i = y
 end
 Y = Y';
 
+% cost without regularization
 J = 1/m * sum(sum(-Y .* log(h) - (1-Y) .* log(1-h)));
-   
-   
-% for every sample, calculate the cost of the prediction h
 
+% regularization term.  remove bias terms.
+
+R = lambda/(2 * m) * ...
+    (sum (sum(Theta1(:,2:columns(Theta1)) .^2)) + ...
+     sum (sum(Theta2(:,2:columns(Theta2)) .^2))) 
+
+J = J + R     
 
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
