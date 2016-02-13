@@ -38,6 +38,29 @@ Theta2_grad = zeros(size(Theta2));
 %         variable J. After implementing Part 1, you can verify that your
 %         cost function computation is correct by verifying the cost
 %         computed in ex4.m
+
+% calculate cost by Forward propagation 
+
+% calculate the hypothesis h 
+% estimate probablity for every class given every sample
+% DIM: m (number of samples) x num_labels (number of classes)
+h1 = sigmoid([ones(m, 1) X] * Theta1');
+h = sigmoid([ones(m, 1) h1] * Theta2');
+
+% prep the truth labels in the right format
+% DIM: Y = m (nr of samples) x num_labels
+Y=[];
+for i = y
+  Y = [Y eye(num_labels)(:, i)];
+end
+Y = Y';
+
+J = 1/m * sum(sum(-Y .* log(h) - (1-Y) .* log(1-h)));
+   
+   
+% for every sample, calculate the cost of the prediction h
+
+
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
