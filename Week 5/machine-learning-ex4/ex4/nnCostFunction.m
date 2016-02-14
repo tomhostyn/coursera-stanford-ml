@@ -101,24 +101,34 @@ J = J + R;
 %z3 = [ones(m, 1) a2] * Theta2';
 %a3 = sigmoid(z3);
 
-if 0
 % iterate over all samples
-
+t=1;
 for t = 1:m
 % pick up only current sample t
 
+a3 = A3(t, :);
+a2 = [1 A2(t, :)];
+a1 = A1(t, :);
+
+y  = Y(t, :);
+z2 = Z2(t, :);
+
+% add the bias term to z to fix dimensions.  will be ignored later
+z2 = [1 z2];
 
 % delta for output nodes.  dim: num_labels x 1
-% pick up only current sample t
-d3 = (a3(t, :) - Y(t, :))';
-d2 = Theta2' * d3 .* sigmoidGradient(z2)(t, :);
-%d2 = d2(2:end); % drop bias term
+d3 = (a3 - y)';
 
-Theta1_grad = Theta1_grad + d2
-Theta2_grad = Theta1_grad + d3
+d2 = (Theta2' * d3)' .* sigmoidGradient(z2);
+d2 = d2(2:end); % drop bias term
+
+Theta1_grad = Theta1_grad + (a1'*d2)' ;
+Theta2_grad = Theta2_grad + (a2'*d3')';
 end
 
-end
+Theta1_grad = 1/m * (Theta1_grad);
+Theta2_grad = 1/m * (Theta2_grad);
+
 
 
 % Part 3: Implement regularization with the cost function and gradients.
