@@ -26,6 +26,10 @@ J = 1/(2*m) * sum(d);
 %regularisation term
 J = J + lambda/(2*m) * sum(theta(2:end).^2);
 
+% gradient
+grad = 1/m * ((H - y)' * X);
+grad = grad + [0 lambda/m * theta(2:end)'];
+
 % =========================================================================
 
 grad = grad(:);
