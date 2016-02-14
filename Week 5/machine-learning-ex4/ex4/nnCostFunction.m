@@ -44,10 +44,20 @@ Theta2_grad = zeros(size(Theta2));
 % calculate the hypothesis h 
 % estimate probablity for every class given every sample
 % DIM: m (number of samples) x num_labels (number of classes)
-h1 = sigmoid([ones(m, 1) X] * Theta1');
-h = sigmoid([ones(m, 1) h1] * Theta2');
+
+%h1 = sigmoid([ones(m, 1) X] * Theta1');
+%h = sigmoid([ones(m, 1) h1] * Theta2');
+
+%breakup in steps useful for backpropagation later
+A1 = [ones(m, 1) X];
+Z2 = A1 * Theta1';
+A2 = sigmoid(Z2);
+Z3 = [ones(m, 1) A2] * Theta2';
+A3 = sigmoid(Z3);
+h = A3;
 
 % prep the truth labels in the right format
+% every element in y becomes a column with all 0 and a single 1 denoting the right output class
 % DIM: Y = m (nr of samples) x num_labels
 Y=[];
 for i = y
@@ -82,6 +92,35 @@ J = J + R;
 %               over the training examples if you are implementing it for the 
 %               first time.
 %
+
+
+%breakup in steps useful for backpropagation later
+
+%z2 = [ones(m, 1) X] * Theta1';
+%a2 = sigmoid(z2);
+%z3 = [ones(m, 1) a2] * Theta2';
+%a3 = sigmoid(z3);
+
+if 0
+% iterate over all samples
+
+for t = 1:m
+% pick up only current sample t
+
+
+% delta for output nodes.  dim: num_labels x 1
+% pick up only current sample t
+d3 = (a3(t, :) - Y(t, :))';
+d2 = Theta2' * d3 .* sigmoidGradient(z2)(t, :);
+%d2 = d2(2:end); % drop bias term
+
+Theta1_grad = Theta1_grad + d2
+Theta2_grad = Theta1_grad + d3
+end
+
+end
+
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
