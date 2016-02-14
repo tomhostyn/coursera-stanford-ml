@@ -24,7 +24,7 @@ d = (H - y) .^ 2;
 J = 1/(2*m) * sum(d);
 
 %regularisation term
-J = J + lambda/(2*m) * sum(theta(2:end));
+J = J + lambda/(2*m) * sum(theta(2:end).^2);
 
 % =========================================================================
 
