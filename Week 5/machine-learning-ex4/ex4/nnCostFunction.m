@@ -139,23 +139,13 @@ Theta2_grad = 1/m * (Theta2_grad);
 %               and Theta2_grad from Part 2.
 %
 
+% set bias terms to zeros
+Theta1_nobias = [zeros(hidden_layer_size,1) Theta1(:, 2:end)];
+Theta1_nobias = [zeros(rows(Theta1),1) Theta1(:, 2:end)];
+Theta2_nobias = [zeros(rows(Theta2),1) Theta2(:, 2:end)];
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Theta1_grad = Theta1_grad +(lambda/m) * Theta1_nobias;
+Theta2_grad = Theta2_grad +(lambda/m) * Theta2_nobias;
 
 % -------------------------------------------------------------
 
