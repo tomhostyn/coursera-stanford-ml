@@ -54,7 +54,7 @@ Z2 = A1 * Theta1';
 A2 = sigmoid(Z2);
 Z3 = [ones(m, 1) A2] * Theta2';
 A3 = sigmoid(Z3);
-h = A3;
+H = A3;
 
 % prep the truth labels in the right format
 % every element in y becomes a column with all 0 and a single 1 denoting the right output class
@@ -66,7 +66,7 @@ end
 Y = Y';
 
 % cost without regularization
-J = 1/m * sum(sum(-Y .* log(h) - (1-Y) .* log(1-h)));
+J = 1/m * sum(sum(-Y .* log(H) - (1-Y) .* log(1-H)));
 
 % regularization term.  remove bias terms.
 
