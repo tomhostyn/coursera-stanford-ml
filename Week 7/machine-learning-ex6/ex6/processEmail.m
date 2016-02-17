@@ -8,6 +8,7 @@ function word_indices = processEmail(email_contents)
 
 % Load Vocabulary
 vocabList = getVocabList();
+vocabListSize = 1899
 
 % Init return value
 word_indices = [];
@@ -98,13 +99,15 @@ while ~isempty(email_contents)
     %
 
 
+i=1;    
+while (i <= vocabListSize && ! strcmp(str, vocabList{i}))
+i = i+1;
+end
 
 
-
-
-
-
-
+if (i <= vocabListSize)
+word_indices = [word_indices ; i];
+end
 
     % =============================================================
 
