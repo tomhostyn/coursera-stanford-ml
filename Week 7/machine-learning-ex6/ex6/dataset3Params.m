@@ -9,7 +9,7 @@ function [C, sigma] = dataset3Params(X, y, Xval, yval)
 
 % You need to return the following variables correctly.
 C = 1;
-sigma = 0.3;
+sigma = 0.1;
 
 % ====================== YOUR CODE HERE ======================
 % Instructions: Fill in this function to return the optimal C and sigma
@@ -23,35 +23,40 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
-%C_candidates = [1, 10];
-C_candidates = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
-%sigma_candidates = [0.01, 0.03];
-sigma_candidates = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
+do_optimisation = 0
 
-%generate all possible pairs
-[p,q] = meshgrid(C_candidates, sigma_candidates);
+if (do_optimisation)
 
-combinations = size(p(:))(1);
+  %C_candidates = [1, 10];
+  C_candidates = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
+  %sigma_candidates = [0.01, 0.03];
+  sigma_candidates = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
 
-%all combinations + a slot for the prediction error
-pairs = [p(:) q(:) zeros(combinations,1)];
+  %generate all possible pairs
+  [p,q] = meshgrid(C_candidates, sigma_candidates);
 
-pairs
+  combinations = size(p(:))(1);
 
-for i = 1:combinations
-  C = pairs(i, 1);
-  sigma = pairs (i, 2);
-  model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma)); 
-  predictions = svmPredict(model, Xval);
-  pairs(i, 3) = mean(double(predictions ~= yval));
-end
+  %all combinations + a slot for the prediction error
+  pairs = [p(:) q(:) zeros(combinations,1)];
 
-pairs
-  
-[m i ] = min (pairs(:, 3));
-C = pairs(i, 1)
-sigma = pairs (i, 2)
+  pairs
 
+  for i = 1:combinations
+    C = pairs(i, 1);
+    sigma = pairs (i, 2);
+    model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma)); 
+    predictions = svmPredict(model, Xval);
+    pairs(i, 3) = mean(double(predictions ~= yval));
+  end
+
+  pairs
+    
+  [m i ] = min (pairs(:, 3));
+  C = pairs(i, 1)
+  sigma = pairs (i, 2)
+
+end  
 % =========================================================================
 
 end
