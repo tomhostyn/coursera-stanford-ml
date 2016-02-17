@@ -23,11 +23,34 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+%C_candidates = [1, 10];
+C_candidates = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
+%sigma_candidates = [0.01, 0.03];
+sigma_candidates = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
 
+%generate all possible pairs
+[p,q] = meshgrid(C_candidates, sigma_candidates);
 
+combinations = size(p(:))(1);
 
+%all combinations + a slot for the prediction error
+pairs = [p(:) q(:) zeros(combinations,1)];
 
+pairs
 
+for i = 1:combinations
+  C = pairs(i, 1);
+  sigma = pairs (i, 2);
+  model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma)); 
+  predictions = svmPredict(model, Xval);
+  pairs(i, 3) = mean(double(predictions ~= yval));
+end
+
+pairs
+  
+[m i ] = min (pairs(:, 3));
+C = pairs(i, 1)
+sigma = pairs (i, 2)
 
 % =========================================================================
 
