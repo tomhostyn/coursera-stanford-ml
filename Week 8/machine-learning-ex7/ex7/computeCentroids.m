@@ -27,10 +27,10 @@ centroids = zeros(K, n);
 %
 
 
-
-
-
-
+for i = 1:K
+cluster = X(idx==i, :);
+centroids (i, :) = mean(cluster);
+end
 
 
 % =============================================================
