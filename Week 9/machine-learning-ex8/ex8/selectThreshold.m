@@ -24,14 +24,20 @@ for epsilon = min(pval):stepsize:max(pval)
     %       of 0's and 1's of the outlier predictions
 
 
+predictions = (pval < epsilon);
 
+TP = sum (predictions .* yval); 
+FP = sum (predictions .* !yval);
+FN = sum (!predictions .* yval);
+TN = sum (!predictions .* !yval);
 
+if (TP == 0 )
+  F1 = 0;
+ else 
+  prec = TP / (TP + FP);
+  recall = TP / (TP + FN);
 
-
-
-
-
-
+  F1 = 2 * (prec * recall) / (prec + recall);
 
 
 
